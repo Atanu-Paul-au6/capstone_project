@@ -1,0 +1,32 @@
+{
+  "name": "capstone_project",
+  "version": "1.0.0",
+  "description": "mern stack ecommercer app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atanu-Paul-au6/capstone_project.git"
+  },
+  "keywords": [
+    "node",
+    "react",
+    "mongodb",
+    "express"
+  ],
+  "author": "Atanu Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Atanu-Paul-au6/capstone_project/issues"
+  },
+  "homepage": "https://github.com/Atanu-Paul-au6/capstone_project#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.27",
+    "nodemon": "^2.0.4",
+    "uuid": "^8.3.0"
+  }
+}
