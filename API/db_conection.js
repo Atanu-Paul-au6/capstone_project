@@ -20,18 +20,14 @@ const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_LOCAL_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: true
+      useUnifiedTopology: true,
     });
-    console.log(
-      `MongoDB is up @ mongoLocal :${conn.connection.host}`
-    );
+    console.log(`MongoDB is up @ mongoLocal :${conn.connection.host}`);
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
 };
-
 
 module.exports = connectDB;

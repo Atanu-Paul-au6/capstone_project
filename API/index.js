@@ -1,5 +1,10 @@
 //importing the packages
 const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const expressValidator = require("express-validator");
+const cors = require("cors");
 require("dotenv").config();
 
 //importing the routes
@@ -11,8 +16,16 @@ connectDB();
 //initilizing  the app
 const app = express();
 
+//setting up the middlewares
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(expressValidator());
+app.use(morgan("dev"));
+// app.use(cors());
+
 //setting up the route
-app.use('/api',userRoutes);
+app.use("/api", userRoutes);
 
 const port = process.env.PORT || 8080;
 
