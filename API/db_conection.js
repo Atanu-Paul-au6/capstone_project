@@ -5,8 +5,7 @@ const mongoose = require("mongoose");
 //     const conn = await mongoose.connect(process.env.MONGO_URI, {
 //       useNewUrlParser: true,
 //       useUnifiedTopology: true,
-//       useCreateIndex: true,
-//       useFindAndModify: true,
+//       useCreateIndex: true
 //     });
 //     console.log(`MONGODB IS UP @ MONGO_ATLAS : " ${conn.connection.host} "`);
 //   } catch (error) {
