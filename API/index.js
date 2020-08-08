@@ -8,7 +8,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 //importing the routes
-const userRoutes = require("./routes/user");
+const authRoutes = require("./routes/authentication");
+const userRoutes = require("./routes/userRoutes");
 //connecting the mongodb atlas cluster to the api
 const connectDB = require("./db_conection");
 connectDB();
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 // app.use(cors());
 
 //setting up the route
+app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 
 const port = process.env.PORT || 8080;

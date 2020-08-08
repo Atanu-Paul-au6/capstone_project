@@ -68,4 +68,3 @@ exports.logout = (req, res) => {
   res.clearCookie("jwttoken");
   res.json({ message: "Logged Out" });
 };
-
