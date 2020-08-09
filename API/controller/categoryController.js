@@ -1,6 +1,9 @@
 const Category = require("../model/category");
 const { errorHandler } = require("../helper/errorHandler");
 
+//@desc     Category create route
+//@route    POST /api/category/create/:userId
+//@access   protected
 exports.create = (req, res) => {
   const category = new Category(req.body);
   category.save((err, data) => {

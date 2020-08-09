@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 //importing the constructor method
-const { create } = require("../controller/productController");
+const {
+  create,
+  findProductById,
+  getSingleProduct,
+  deleteSingleProduct,
+} = require("../controller/productController");
 const { findUserById } = require("../controller/userController");
 const {
   isLoggedIn,
@@ -11,7 +16,7 @@ const {
 } = require("../middleware/auth_middleware");
 
 //get routes
-
+router.get("/product/:productId", getSingleProduct);
 //post routes
 router.post(
   "/product/create/:userId",
@@ -21,8 +26,19 @@ router.post(
   create
 );
 
+router.delete(
+  "/product/:productId/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  isAdmin,
+  deleteSingleProduct
+);
+
 //findUserById method
 router.param("userId", findUserById);
+
+//findPeoductById method
+router.param("productId", findProductById);
 
 //protected route middleware check
 // router.get("/hi", authCheck, (req, res) => {
