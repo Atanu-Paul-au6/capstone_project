@@ -4,7 +4,7 @@ const router = express.Router();
 const { findUserById } = require("../controller/userController");
 
 // const {
-//   authCheck,
+//   isLoggedIn,
 //   isAuthenticated,
 //   isAdmin,
 // } = require("../middleware/auth_middleware");
@@ -12,7 +12,7 @@ const { findUserById } = require("../controller/userController");
 //test route
 // router.get(
 //   "/profile/:userId",
-//   authCheck,
+//   isLoggedIn,
 //   isAuthenticated,
 //   isAdmin,
 //   (req, res) => {
