@@ -7,6 +7,7 @@ const {
   findProductById,
   getSingleProduct,
   deleteSingleProduct,
+  updateSingleProduct,
 } = require("../controller/productController");
 const { findUserById } = require("../controller/userController");
 const {
@@ -32,6 +33,14 @@ router.delete(
   isAuthenticated,
   isAdmin,
   deleteSingleProduct
+);
+
+router.put(
+  "/product/:productId/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  isAdmin,
+  updateSingleProduct
 );
 
 //findUserById method
