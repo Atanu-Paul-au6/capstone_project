@@ -129,3 +129,33 @@ exports.updateSingleProduct = (req, res) => {
     });
   });
 };
+
+/*
+methods to select and return product based on the highest number sold i.e. Most Sold Product
+for that the url parameter coming form the front end will be:
+/product?sortBy=sold&orderby=desc&limt=4
+
+methods to select and return product based on new arival
+for that the url parameter coming form the front end will be:
+/product?sortBy=createdAt&orderby=desc&limt=4
+
+if no prameter are sent form the url then we send all the products
+*/
+
+exports.getAllProducts = (req, res) => {
+  let orderBy = req.query.orderBy ? req.query.orderBy : "asc";
+  let sortBy = req.query.sorrtBy ? req.query.sortBy : "_id";
+  let limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 7;
+
+  Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, orderBy]])
+    .limit(limit)
+    .exec((err, product) => {
+      if (err) {
+        return res.status(400).json({ message: "Product Not Found" });
+      }
+      res.send(product);
+    });
+};
