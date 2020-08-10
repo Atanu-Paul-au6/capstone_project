@@ -7,8 +7,12 @@ const {
   findProductById,
   getSingleProduct,
   getAllProducts,
+  getRelatedProduct,
+  getAllProductCategory,
   deleteSingleProduct,
   updateSingleProduct,
+  listBySearch,
+  getProductImage,
 } = require("../controller/productController");
 const { findUserById } = require("../controller/userController");
 const {
@@ -18,8 +22,12 @@ const {
 } = require("../middleware/auth_middleware");
 
 //get routes
-router.get("/product/:productId", getSingleProduct);
 router.get("/product", getAllProducts);
+router.get("/product/:productId", getSingleProduct);
+router.get("/product/related/:productId", getRelatedProduct);
+router.get("/products/categories", getAllProductCategory);
+router.get("/product/photo/:productId", getProductImage);
+
 //post routes
 router.post(
   "/product/create/:userId",
@@ -28,6 +36,7 @@ router.post(
   isAdmin,
   create
 );
+router.post("/products/search", listBySearch);
 
 router.delete(
   "/product/:productId/:userId",
@@ -50,10 +59,5 @@ router.param("userId", findUserById);
 
 //findPeoductById method
 router.param("productId", findProductById);
-
-//protected route middleware check
-// router.get("/hi", authCheck, (req, res) => {
-//   res.status(200).json({ message: "HI" });
-// });
 
 module.exports = router;

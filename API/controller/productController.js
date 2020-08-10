@@ -142,10 +142,13 @@ for that the url parameter coming form the front end will be:
 if no prameter are sent form the url then we send all the products
 */
 
+//@desc     Get all product route
+//@route    GET /api/product
+//@access   public
 exports.getAllProducts = (req, res) => {
   let orderBy = req.query.orderBy ? req.query.orderBy : "asc";
   let sortBy = req.query.sorrtBy ? req.query.sortBy : "_id";
-  let limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 7;
+  let limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
 
   Product.find()
     .select("-photo")
@@ -156,6 +159,111 @@ exports.getAllProducts = (req, res) => {
       if (err) {
         return res.status(400).json({ message: "Product Not Found" });
       }
-      res.send(product);
+      res.json(product);
     });
+};
+
+/**
+ *  this method will work by selecting the category id of the current product in the request body
+ * and fetch all the other products having the same category id
+ */
+
+//@desc     Get related product route
+//@route    GET /api/product/related/:productId
+//@access   public
+
+exports.getRelatedProduct = (req, res) => {
+  let limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 2;
+
+  Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    .limit(limit)
+    .populate("category", "_id name")
+    .exec((err, products) => {
+      if (err) {
+        return res.status(400).json({ error: "No related product found" });
+      }
+      res.json(products);
+    });
+};
+
+/**
+ * this method will fetch all the categories that currently have products attached to them
+ */
+//@desc     Get categories in use route
+//@route     GET /api/products/categories
+//@access    public
+exports.getAllProductCategory = (req, res) => {
+  Product.distinct("category", {}, (err, category) => {
+    if (err) {
+      return res.status(400).json({ error: "No categories found" });
+    }
+    res.json(category);
+  });
+};
+
+/**
+ * list products by search
+ * we will show categories in checkbox and price range in radio buttons
+ * as the user clicks on those checkbox and radio buttons
+ * we will make api request and show the products to users based on what he wants
+ */
+exports.listBySearch = (req, res) => {
+  let order = req.body.order ? req.body.order : "desc";
+  let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  let limit = parseInt(req.body.limit) ? parseInt(req.body.limit) : 100;
+  let skip = parseInt(req.body.skip);
+  let findArgs = {};
+
+  // console.log(order, sortBy, limit, skip, req.body.filters);
+  // console.log("findArgs", findArgs);
+
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      if (key === "price") {
+        // gte -  greater than price [0-10]
+        // lte - less than
+        findArgs[key] = {
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
+    }
+  }
+
+  Product.find(findArgs)
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Products not found",
+        });
+      }
+      res.json({
+        size: data.length,
+        data,
+      });
+    });
+};
+
+/**
+ * a middleware function to fetch and send the current product image
+ */
+exports.getProductImage = (req, res, next) => {
+  // if (req.product.photo.data) {
+  //   let data = req.product.photo.data;
+  //   let buffer = new Buffer(data, "base64");
+  //   res.set("Content-Type", req.product.photo.contentType);
+  //   res.send(buffer);
+  // }
+  if (req.product.photo.data) {
+    res.set('Content-Type', req.product.photo.contentType);
+    return res.send(req.product.photo.data);
+}
+  next();
 };
