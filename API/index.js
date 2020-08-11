@@ -8,7 +8,11 @@ const cors = require("cors");
 require("dotenv").config();
 
 //importing the routes
-const userRoutes = require("./routes/user");
+const authRoutes = require("./routes/authentication");
+const userRoutes = require("./routes/userRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const productRoutes = require("./routes/productRoute");
+
 //connecting the mongodb atlas cluster to the api
 const connectDB = require("./db_conection");
 connectDB();
@@ -22,10 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(morgan("dev"));
-// app.use(cors());
+app.use(cors());
 
 //setting up the route
+app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 
 const port = process.env.PORT || 8080;
 
