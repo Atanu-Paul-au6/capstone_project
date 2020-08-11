@@ -6,6 +6,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
     console.log(`MONGODB IS UP @ MONGO_ATLAS : " ${conn.connection.host} "`);
   } catch (error) {
