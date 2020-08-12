@@ -1,5 +1,5 @@
 import React from "react";
-import "../../style/style.css";
+import '../../Sass/style.scss'
 
 const Layout = ({ children, className }) => (
   <div>

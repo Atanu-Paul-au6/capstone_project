@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Layout from "../landing/Layout";
 import { API } from "../../config";
 
+
 const Register = () => {
   const [values, setValues] = useState({
     name: "",
@@ -42,52 +43,47 @@ const Register = () => {
     <form>
       <h3>Register</h3>
       <div className="form-group bmd-form-group">
-        <label htmlFor="name" className="bmd-label-floating">
-          Name
-        </label>
         <input
           type="text"
           className="form-control"
-          id="name"
+          id="formGroupExampleInput"
+          placeholder="Enter Name"
           onChange={handleChange("name")}
         ></input>
       </div>
       <div className="form-group bmd-form-group">
-        <label htmlFor="email" className="bmd-label-floating">
-          Email
-        </label>
         <input
           type="email"
           className="form-control"
-          id="email"
+          id="formGroupExampleInput1"
+          placeholder="Enter Email Address"
           onChange={handleChange("email")}
         ></input>
       </div>
       <div className="form-group bmd-form-group">
-        <label htmlFor="password" className="bmd-label-floating">
-          Password
-        </label>
         <input
           type="password"
           className="form-control"
-          id="password"
+          id="formGroupExampleInput2"
+          placeholder="Enter Password"
           onChange={handleChange("password")}
         ></input>
       </div>
+      <div className="form-group bmd-form-group">
       <button
         type="button"
-        className="btn btn-raised btn-success btn-lg float-xl-right"
+        className="btn btn-raised btn-info btn-lg form-control"
         onClick={clickSubmit}
       >
         Register
       </button>
+      </div>
     </form>
   );
 
   return (
-    <Layout className="container col-md-8 offest-md-2">
+    <Layout className="container formBox">
       {registerFrom()}
-      {JSON.stringify(values)}
     </Layout>
   );
 };
