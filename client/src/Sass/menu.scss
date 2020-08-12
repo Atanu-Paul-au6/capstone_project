@@ -1,0 +1,5 @@
+@use 'variables';
+
+.menuFontColor {
+  color: variables.$menu_font_color;
+}
