@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "../landing/Layout";
-import { login } from "../../api_request";
+import { login, authenticate } from "../../api_request";
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
@@ -24,9 +24,11 @@ const Login = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
-        setValues({
-          ...values,
-          redirectToDashboard: true,
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            redirectToDashboard: true,
+          });
         });
       }
     });
@@ -90,7 +92,8 @@ const Login = () => {
   };
   return (
     <Layout className="container formBox">
-    {showLoading()}{loginFrom()} {redirectUser()}
+      {showLoading()}
+      {loginFrom()} {redirectUser()}
     </Layout>
   );
 };

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { logout, isAuthenticated } from "../../api_request";
 
 //#658361
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
-    return { color: "#658361", fontSize: "large", fontWeight: "bold" };
+    return {
+      color: "#658361",
+      fontSize: "large",
+      fontWeight: "bold",
+      cursor: "pointer",
+    };
   }
 };
 
@@ -34,20 +40,40 @@ const Menu = ({ history }) => (
           >
             Home
           </Link>
-          <Link
-            className="nav-item nav-link"
-            to="/register"
-            style={isActive(history, "/register")}
-          >
-            Register
-          </Link>
-          <Link
-            className="nav-item nav-link"
-            to="/login"
-            style={isActive(history, "/login")}
-          >
-            Login
-          </Link>
+          {!isAuthenticated() && (
+            <Fragment>
+              <Link
+                className="nav-item nav-link"
+                to="/register"
+                style={isActive(history, "/register")}
+              >
+                Register
+              </Link>
+              <Link
+                className="nav-item nav-link"
+                to="/login"
+                style={isActive(history, "/login")}
+              >
+                Login
+              </Link>
+            </Fragment>
+          )}
+          {isAuthenticated() && (
+            <span
+              className="nav-item nav-link"
+              style={{
+                color: "#658361",
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                logout(() => {
+                  history.push("/login");
+                })
+              }
+            >
+              Logout
+            </span>
+          )}
         </div>
       </div>
     </nav>
