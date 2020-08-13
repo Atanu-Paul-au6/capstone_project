@@ -21,18 +21,19 @@ connectDB();
 const app = express();
 
 //setting up the middlewares
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(morgan("dev"));
-app.use(cors());
+
 
 //setting up the route
-app.use("/api", authRoutes);
-app.use("/api", userRoutes);
-app.use("/api", categoryRoutes);
-app.use("/api", productRoutes);
+app.use(authRoutes, userRoutes, categoryRoutes, productRoutes);
+// app.use("/api", userRoutes);
+// app.use("/api", categoryRoutes);
+// app.use("/api", productRoutes);
 
 const port = process.env.PORT || 8080;
 
