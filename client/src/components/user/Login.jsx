@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "../landing/Layout";
-import { login, authenticate } from "../../api_request";
+import { login, authenticate, isAuthenticated } from "../../api_request";
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
@@ -12,6 +12,7 @@ const Login = () => {
   });
 
   const { email, password, loading, error, redirectToDashboard } = values;
+  const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -87,7 +88,11 @@ const Login = () => {
   const showLoading = () => loading && <div className="loader">Loading...</div>;
   const redirectUser = () => {
     if (redirectToDashboard) {
-      return <Redirect to="/" />;
+      if (user && user.role === 1) {
+        return <Redirect to="/admin/dashboard" />;
+      } else {
+        return <Redirect to="/user/dashboard" />;
+      }
     }
   };
   return (

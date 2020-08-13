@@ -13,7 +13,7 @@ const isActive = (history, path) => {
     };
   }
 };
-
+//use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
     <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -39,6 +39,13 @@ const Menu = ({ history }) => (
             style={isActive(history, "/")}
           >
             Home
+          </Link>
+          <Link
+            className="nav-item nav-link"
+            to="/user/dashboard"
+            style={isActive(history, "/user/dashboard")}
+          >
+            Profile
           </Link>
           {!isAuthenticated() && (
             <Fragment>
