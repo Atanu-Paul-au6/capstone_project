@@ -16,7 +16,7 @@ const isActive = (history, path) => {
 //use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
-    <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
         <img src="logoicon.png" alt="comapny-logo" />
       </Link>
