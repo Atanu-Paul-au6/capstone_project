@@ -16,9 +16,13 @@ const isActive = (history, path) => {
 //use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
       <Link className="navbar-brand" to="/">
-        <img src="logoicon.png" alt="comapny-logo" />
+        <img
+          src="logo_transparent.png"
+          alt="comapny-logo"
+          style={{ width: "40px" }}
+        />
       </Link>
       <button
         className="navbar-toggler"
@@ -94,6 +98,19 @@ const Menu = ({ history }) => (
               Logout
             </span>
           )}
+        </div>
+        <div className="ml-auto">
+          {isAuthenticated() && (
+            <span style={{ color: "white" }}>
+              Hello, {isAuthenticated().user.name}
+            </span>
+          )}
+          <Link className="ml-3">
+            <i
+              className="fas fa-shopping-cart"
+              style={{ color: "white", fontSize: "x-large" }}
+            ></i>
+          </Link>
         </div>
       </div>
     </nav>

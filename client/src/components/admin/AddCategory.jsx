@@ -55,7 +55,7 @@ const AddCategory = () => {
           <div className="d-flex flex-row justify-content-center">
             <button
               type="submit"
-              className="btn btn-raised btn-lg btn-info ml-4"
+              className="btn btn-raised btn-lg btn-info"
             >
               Create
             </button>
