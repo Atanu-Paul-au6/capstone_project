@@ -8,6 +8,19 @@
   width: 25em;
 }
 
+#formGroupExampleInput::placeholder {
+  color: black;
+  opacity: 1;
+}
+#formGroupExampleInput1::placeholder {
+  color: black;
+  opacity: 1;
+}
+#formGroupExampleInput2::placeholder {
+  color: black;
+  opacity: 1;
+}
+
 .loader,
 .loader:before,
 .loader:after {
@@ -20,7 +33,7 @@
   animation: load7 1.8s infinite ease-in-out;
 }
 .loader {
-  color: #658361;
+  color: black;
   font-size: 10px;
   margin: 80px auto;
   position: relative;

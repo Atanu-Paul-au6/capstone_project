@@ -94,6 +94,9 @@ const Login = () => {
         return <Redirect to="/user/dashboard" />;
       }
     }
+    if (isAuthenticated()) {
+      return <Redirect to="/" />;
+    }
   };
   return (
     <Layout className="container formBox">
