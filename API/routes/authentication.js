@@ -20,8 +20,8 @@ router.post("/register", userSignUpValidator, register);
 router.post("/login", login);
 
 //protected route middleware check
-router.get("/hi", isLoggedIn, (req, res) => {
-  res.status(200).json({ message: "HI" });
-});
+// router.get("/hi", (req, res) => {
+//   res.status(200).json({ message: "HI" });
+// });
 
 module.exports = router;
