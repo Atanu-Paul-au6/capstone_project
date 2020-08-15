@@ -1,7 +1,10 @@
 //importing the models
 const User = require("../model/user");
 const jwt = require("jsonwebtoken"); //to generate token on login
+const sgMail = require("@sendgrid/mail");
 const { errorHandler } = require("../helper/errorHandler");
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //@desc     Default welcome route
 //@route    GET /api
@@ -14,9 +17,8 @@ exports.sayHi = (req, res) => {
 //@route    POST /api/register
 //@access   public
 exports.register = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const user = new User(req.body);
-  console.log(user);
 
   await user.save((err, user) => {
     if (err) {
@@ -26,6 +28,20 @@ exports.register = async (req, res) => {
     user.hashed_password = undefined;
     res.status(201).json({ user });
   });
+
+  const emailBody = {
+    to: user.email,
+    from: "stopandshopnoreply@gmail.com",
+    subject: "Welcome To Stop and Shop",
+    html: `Hi,<strong>${user.name}</strong><br/><p>Welcome to Stop and Shop. <strong>YOUR ONE STOP ONLINE SHOPPING DESTINATION</strong></p><br/><p>You will find all your shopping needs fullfiled here. So enjoy</p><br/><p>Below is your username and password keep it safe<br/><ul><li>Username:${user.email}</li><li>Password:${req.body.password}</li></ul></p><br/><strong>HAPPY SHOPPING.</strong>`,
+  };
+
+  sgMail
+    .send(emailBody)
+    .then((sent) => console.log("SENT >>>> ", sent))
+    .catch((err) => console.log("ERROR >>>> ", err));
+
+  console.log(user.name, user.email);
 };
 
 //@desc     login route

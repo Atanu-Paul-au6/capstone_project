@@ -16,9 +16,13 @@ const isActive = (history, path) => {
 //use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
-    <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
       <Link className="navbar-brand" to="/">
-        <img src="logoicon.png" alt="comapny-logo" />
+        <img
+          src="logo_transparent.png"
+          alt="comapny-logo"
+          style={{ width: "40px" }}
+        />
       </Link>
       <button
         className="navbar-toggler"
@@ -42,11 +46,31 @@ const Menu = ({ history }) => (
           </Link>
           <Link
             className="nav-item nav-link"
-            to="/user/dashboard"
-            style={isActive(history, "/user/dashboard")}
+            to="/shop"
+            style={isActive(history, "/shop")}
           >
-            Profile
+            Shop
           </Link>
+          {isAuthenticated() && isAuthenticated().user.role === 0 && (
+            <Link
+              className="nav-item nav-link"
+              to="/user/dashboard"
+              style={isActive(history, "/user/dashboard")}
+            >
+              Profile
+            </Link>
+          )}
+
+          {isAuthenticated() && isAuthenticated().user.role === 1 && (
+            <Link
+              className="nav-item nav-link"
+              to="/admin/dashboard"
+              style={isActive(history, "/admin/dashboard")}
+            >
+              Dashboard
+            </Link>
+          )}
+
           {!isAuthenticated() && (
             <Fragment>
               <Link
@@ -81,6 +105,19 @@ const Menu = ({ history }) => (
               Logout
             </span>
           )}
+        </div>
+        <div className="ml-auto">
+          {isAuthenticated() && (
+            <span style={{ color: "white" }}>
+              Hello, {isAuthenticated().user.name}
+            </span>
+          )}
+          <Link className="ml-3">
+            <i
+              className="fas fa-shopping-cart"
+              style={{ color: "white", fontSize: "x-large" }}
+            ></i>
+          </Link>
         </div>
       </div>
     </nav>
