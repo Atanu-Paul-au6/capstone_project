@@ -1,8 +1,68 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../landing/Layout";
+import { getProducts } from "../../api_request/api_product";
+import Loader from "../Loader";
+import Card from "../product/ProductCard";
 
 const Login = () => {
-  return <Layout>Home</Layout>;
+  const [mostSold, setMostSold] = useState([]);
+  const [newArrival, setNewArrival] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const loadProductsBySell = () => {
+    setLoading(true);
+    getProducts("sold").then((data) => {
+      if (data.error) {
+        setError(data.error);
+        setLoading(false);
+      } else {
+        setMostSold(data);
+        setLoading(false);
+      }
+    });
+  };
+
+  const loadProductsByArrival = () => {
+    setLoading(true);
+    getProducts("createdAt").then((data) => {
+      if (data.error) {
+        setError(data.error);
+        setLoading(false);
+      } else {
+        setNewArrival(data);
+        setLoading(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadProductsByArrival();
+    loadProductsBySell();
+  }, []);
+  const showLoading = () => loading && <Loader />;
+  return (
+    <Layout className="container-fluid">
+      {showLoading()}
+      <label className="display-4 mb-4">Most Sold</label>
+      <div className='row equal'>
+        {mostSold.map((product, i) => (
+          <div className="col-sm-3 d-flex pb-5" key={i}>
+            <Card product={product} />
+          </div>
+        ))}
+      </div>
+      <hr/>
+      <label className="display-4 mb-4">New Arrival</label>
+      <div className='row equal'>
+        {newArrival.map((product, i) => (
+          <div className="col-sm-3 d-flex pb-5" key={i}>
+            <Card product={product} />
+          </div>
+        ))}
+      </div>
+    </Layout>
+  );
 };
 
 export default Login;
