@@ -86,4 +86,10 @@
     background-image: url("../images/mobile_ad_banner1.jpg");
     background-position: center;
   }
+  .center-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

@@ -47,7 +47,7 @@ const Login = () => {
       <label className="display-4 mb-4">Most Sold</label>
       <div className='row equal'>
         {mostSold.map((product, i) => (
-          <div className="col-sm-3 d-flex pb-5" key={i}>
+          <div className="col-sm-3 d-flex pb-5 center-card" key={i}>
             <Card product={product} />
           </div>
         ))}
@@ -56,7 +56,7 @@ const Login = () => {
       <label className="display-4 mb-4">New Arrival</label>
       <div className='row equal'>
         {newArrival.map((product, i) => (
-          <div className="col-sm-3 d-flex pb-5" key={i}>
+          <div className="col-sm-3 d-flex pb-5 center-card" key={i}>
             <Card product={product} />
           </div>
         ))}

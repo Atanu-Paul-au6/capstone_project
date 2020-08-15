@@ -13,3 +13,25 @@ export const getProducts = async (sortBy) => {
     return console.log(err);
   }
 };
+
+export const getFilteredProducts = async (skip, limit, filters = {}) => {
+  const data = {
+      limit,
+      skip,
+      filters
+  };
+  try {
+    const response = await fetch(`${API}/products/search`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
