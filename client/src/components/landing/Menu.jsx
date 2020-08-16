@@ -2,11 +2,11 @@ import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { logout, isAuthenticated } from "../../api_request";
 
-//#658361
+//remeber to add menu-text-color class on every new link tag.
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
     return {
-      color: "#658361",
+      color: "#D0DD97",
       fontSize: "large",
       fontWeight: "bold",
       cursor: "pointer",
@@ -16,12 +16,13 @@ const isActive = (history, path) => {
 //use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
-    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
         <img
           src="logo_transparent.png"
           alt="comapny-logo"
           style={{ width: "40px" }}
+          className="logo-zoom"
         />
       </Link>
       <button
@@ -38,14 +39,14 @@ const Menu = ({ history }) => (
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
           <Link
-            className="nav-item nav-link"
+            className="nav-item nav-link menu-text-color"
             to="/"
             style={isActive(history, "/")}
           >
             Home
           </Link>
           <Link
-            className="nav-item nav-link"
+            className="nav-item nav-link menu-text-color"
             to="/shop"
             style={isActive(history, "/shop")}
           >
@@ -53,7 +54,7 @@ const Menu = ({ history }) => (
           </Link>
           {isAuthenticated() && isAuthenticated().user.role === 0 && (
             <Link
-              className="nav-item nav-link"
+              className="nav-item nav-link menu-text-color"
               to="/user/dashboard"
               style={isActive(history, "/user/dashboard")}
             >
@@ -63,7 +64,7 @@ const Menu = ({ history }) => (
 
           {isAuthenticated() && isAuthenticated().user.role === 1 && (
             <Link
-              className="nav-item nav-link"
+              className="nav-item nav-link menu-text-color"
               to="/admin/dashboard"
               style={isActive(history, "/admin/dashboard")}
             >
@@ -74,14 +75,14 @@ const Menu = ({ history }) => (
           {!isAuthenticated() && (
             <Fragment>
               <Link
-                className="nav-item nav-link"
+                className="nav-item nav-link menu-text-color"
                 to="/register"
                 style={isActive(history, "/register")}
               >
                 Register
               </Link>
               <Link
-                className="nav-item nav-link"
+                className="nav-item nav-link menu-text-color"
                 to="/login"
                 style={isActive(history, "/login")}
               >
@@ -91,9 +92,8 @@ const Menu = ({ history }) => (
           )}
           {isAuthenticated() && (
             <span
-              className="nav-item nav-link"
+              className="nav-item nav-link menu-text-color"
               style={{
-                color: "#658361",
                 cursor: "pointer",
               }}
               onClick={() =>

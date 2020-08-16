@@ -3,6 +3,7 @@ import Layout from "../landing/Layout";
 import { getProducts } from "../../api_request/api_product";
 import Loader from "../Loader";
 import Card from "../product/ProductCard";
+import SeachBar from "./SearchBar";
 
 const Login = () => {
   const [mostSold, setMostSold] = useState([]);
@@ -43,18 +44,39 @@ const Login = () => {
   const showLoading = () => loading && <Loader />;
   return (
     <Layout className="container-fluid">
+      <SeachBar />
       {showLoading()}
-      <label className="display-4 mb-4">Most Sold</label>
-      <div className='row equal'>
+      <label
+        className="mb-4"
+        style={{
+          fontSize: "x-large",
+          fontWeight: "bolder",
+          textTransform: "uppercase",
+        }}
+      >
+        biggest sellers
+      </label>
+      <hr />
+      <div className="row equal">
         {mostSold.map((product, i) => (
           <div className="col-sm-3 d-flex pb-5 center-card" key={i}>
             <Card product={product} />
           </div>
         ))}
       </div>
-      <hr/>
-      <label className="display-4 mb-4">New Arrival</label>
-      <div className='row equal'>
+      <hr />
+      <label
+        className="mb-4"
+        style={{
+          fontSize: "x-large",
+          fontWeight: "bolder",
+          textTransform: "uppercase",
+        }}
+      >
+        just arrived
+      </label>
+      <hr />
+      <div className="row equal">
         {newArrival.map((product, i) => (
           <div className="col-sm-3 d-flex pb-5 center-card" key={i}>
             <Card product={product} />

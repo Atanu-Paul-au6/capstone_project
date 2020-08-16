@@ -10,16 +10,32 @@
 .card-background {
   box-shadow: 31px 17px 22px -2px rgba(0, 0, 0, 0.75);
 }
+.menu-text-color {
+  transition: all 0.2s ease-in-out;
+}
+.menu-text-color:hover {
+  transform: scale(1.5);
+}
+.logo-zoom {
+  transition: all 0.2s ease-in-out;
+}
+.logo-zoom:hover {
+  transform: scale(2.5);
+}
 #formGroupExampleInput::placeholder {
-  color: black;
+  color: rgba(0, 0, 0, 0.466);
   opacity: 1;
 }
 #formGroupExampleInput1::placeholder {
-  color: black;
+  color: rgba(0, 0, 0, 0.466);
   opacity: 1;
 }
 #formGroupExampleInput2::placeholder {
-  color: black;
+  color: rgba(0, 0, 0, 0.466);
+  opacity: 1;
+}
+#searchTextbox::placeholder {
+  color: rgba(0, 0, 0, 0.466);
   opacity: 1;
 }
 
@@ -91,5 +107,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .menu-text-color {
+    transition: all 0.2s ease-in-out;
+  }
+  .menu-text-color:hover {
+    transform: scale(1.1);
   }
 }

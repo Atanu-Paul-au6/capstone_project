@@ -16,6 +16,7 @@ const Shop = () => {
   const [loading, setLoading] = useState(false);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(0);
   const [filteredResults, setFilteredResults] = useState([]);
   const [categoryFilters, setCategoryFilters] = useState({
     filter: { category: [], price: [] },
@@ -40,15 +41,47 @@ const Shop = () => {
         setError(data.error);
       } else {
         setFilteredResults(data.data);
+        setSize(data.size);
         setSkip(0);
       }
     });
   };
 
+  const loadMoreProducts = () => {
+    let toSkip = skip + limit;
+    getFilteredProducts(toSkip, limit, categoryFilters.filter).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFilteredResults([...filteredResults, ...data.data]);
+        setSize(data.size);
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      size > 0 &&
+      size >= limit && (
+        <div style={{textAlign:'center'}}>
+          <button
+            className="btn btn-raised btn-lg btn-block btn-dark mb-5"
+            onClick={loadMoreProducts}
+          >
+            View More
+          </button>
+        </div>
+      )
+    );
+  };
   useEffect(() => {
-    populateDropdown();
     loadProducts(skip, limit, categoryFilters.filter);
   }, []);
+
+  const handelToggelClick = () => {
+    populateDropdown();
+  };
 
   const handelFilter = (filter, filterBy) => {
     // console.log("SHOP", filter, filterBy);
@@ -79,20 +112,35 @@ const Shop = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-2">
-          <label style={{ fontSize: "large", fontWeight: "bolder" }}>
-            Filter By Category
-          </label>
+        <div className="col-3">
+          <button
+            data-toggle="collapse"
+            data-target="#fbc"
+            className="btn btn-transparent"
+            onClick={handelToggelClick}
+            style={{ fontSize: "large", fontWeight: "bolder" }}
+          >
+            Filter By Category{"\u00A0"}
+            {"\u00A0"}
+            <i className="fas fa-sliders-h" style={{ fontSize: "x-large" }}></i>
+          </button>
           <hr />
-          <ul>
-            <Checkbox
-              categories={categories}
-              handelFilter={(filter) => handelFilter(filter, "category")}
-            />
-          </ul>
-          <hr />
+          <div id="fbc">
+            <ul>
+              <Checkbox
+                categories={categories}
+                handelFilter={(filter) => handelFilter(filter, "category")}
+              />
+            </ul>
+          </div>
           <div>
-            <label style={{ fontSize: "large", fontWeight: "bolder" }}>
+            <label
+              style={{
+                fontSize: "large",
+                fontWeight: "bolder",
+                textTransform: "uppercase",
+              }}
+            >
               Filter By Price
             </label>
             <hr />
@@ -102,7 +150,7 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className="col-10 mt-4">
+        <div className="col-9 mt-4">
           {showLoading()}
           <div className="row equal">
             {filteredResults.map((product, i) => (
@@ -111,6 +159,7 @@ const Shop = () => {
               </div>
             ))}
           </div>
+          {loadMoreButton()}
         </div>
       </div>
     </div>
