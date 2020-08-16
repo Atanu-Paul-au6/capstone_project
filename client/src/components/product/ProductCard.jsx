@@ -15,23 +15,26 @@ const Card = ({ product }) => {
         <div className="card-body text-dark">
           <ProductImage item={product} url="product" />
           <br />
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <div
             className="card-footer"
             style={{ position: "absolute", bottom: "0" }}
           >
-          <p>{product.description.substring(0, 50)}</p>
+            <p>{product.description.substring(0, 100)}</p>
             <Link to="/" className="btn btn-raised btn-success">
               <i
                 className="fas fa-cart-plus"
                 style={{ fontSize: "x-large" }}
               ></i>
             </Link>
-            <Link to="/" className="btn btn-raised btn-dark ml-5">
+            <Link
+              to={`/product/${product._id}`}
+              className="btn btn-raised btn-dark ml-5"
+            >
               <i className="fas fa-eye" style={{ fontSize: "x-large" }}></i>
             </Link>
           </div>

@@ -22,6 +22,13 @@
 .logo-zoom:hover {
   transform: scale(2.5);
 }
+.img-hover-zoom {
+  transform-origin: 50% 65%;
+  transition: transform 5s, filter 3s ease-in-out;
+}
+.img-hover-zoom:hover {
+  transform: scale(1.2);
+}
 #formGroupExampleInput::placeholder {
   color: rgba(0, 0, 0, 0.466);
   opacity: 1;
@@ -113,5 +120,9 @@
   }
   .menu-text-color:hover {
     transform: scale(1.1);
+  }
+  .detailsPageStyle {
+    display: flex;
+    flex-direction: column;
   }
 }

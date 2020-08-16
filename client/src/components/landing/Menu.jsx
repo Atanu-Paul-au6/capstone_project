@@ -112,7 +112,7 @@ const Menu = ({ history }) => (
               Hello, {isAuthenticated().user.name}
             </span>
           )}
-          <Link className="ml-3">
+          <Link className="ml-3" to='/'>
             <i
               className="fas fa-shopping-cart"
               style={{ color: "white", fontSize: "x-large" }}

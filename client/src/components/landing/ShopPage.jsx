@@ -64,7 +64,7 @@ const Shop = () => {
     return (
       size > 0 &&
       size >= limit && (
-        <div style={{textAlign:'center'}}>
+        <div style={{ textAlign: "center" }}>
           <button
             className="btn btn-raised btn-lg btn-block btn-dark mb-5"
             onClick={loadMoreProducts}
@@ -120,7 +120,7 @@ const Shop = () => {
             onClick={handelToggelClick}
             style={{ fontSize: "large", fontWeight: "bolder" }}
           >
-            Filter By Category{"\u00A0"}
+            Category{"\u00A0"}
             {"\u00A0"}
             <i className="fas fa-sliders-h" style={{ fontSize: "x-large" }}></i>
           </button>
@@ -141,7 +141,7 @@ const Shop = () => {
                 textTransform: "uppercase",
               }}
             >
-              Filter By Price
+              Price Range
             </label>
             <hr />
             <PriceRadio
