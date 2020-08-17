@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { getProductDetails } from "../../api_request/api_product";
+import {
+  getProductDetails,
+  getRelatedProduct,
+} from "../../api_request/api_product";
 import ProductImage from "./ProductImage";
-// import Card from "../product/ProductCard";
+import Card from "./ProductCard";
 
 const ProductDetails = (props) => {
   const [product, setProduct] = useState({});
+  const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState(false);
 
   const loadProductDetails = (productId) => {
@@ -15,6 +19,14 @@ const ProductDetails = (props) => {
         setError(data.error);
       } else {
         setProduct(data);
+        //fetching the related products here as to fetch them we frist need to product id
+        getRelatedProduct(data._id).then((related_data) => {
+          if (related_data.error) {
+            setError(related_data.error);
+          } else {
+            setRelatedProduct(related_data);
+          }
+        });
       }
     });
   };
@@ -22,7 +34,7 @@ const ProductDetails = (props) => {
   useEffect(() => {
     const productId = props.match.params.productId;
     loadProductDetails(productId);
-  }, []);
+  }, [props]);
 
   const showStock = (quantity) => {
     return quantity > 0 ? (
@@ -46,11 +58,14 @@ const ProductDetails = (props) => {
     <div className="container mt-5">
       <div className="row">
         <div className="d-flex detailsPageStyle">
-          <div style={{ backgroundColor: "white", width: "100%" }}>
+          <div style={{ width: "100%", marginTop: "2em" }}>
             <ProductImage item={product} url="product" id="productimage" />
           </div>
-          <div style={{ fontFamily: "sans-serif", marginLeft: "5em" }}>
-            <p className="display-3" style={{ fontWeight: "bolder" }}>
+          <div className="card-details">
+            <p
+              className="display-3"
+              style={{ fontWeight: "bolder", marginTop: "2em" }}
+            >
               {product.name}
             </p>
             <p style={{ fontSize: "x-large", fontWeight: "bold" }}>
@@ -87,7 +102,23 @@ const ProductDetails = (props) => {
         </div>
       </div>
       <br />
-      <div className="row">For Related Product</div>
+      <label
+        style={{
+          fontSize: "x-large",
+          fontWeight: "bolder",
+          textTransform: "uppercase",
+        }}
+      >
+        Similar Products
+      </label>
+      <hr />
+      <div className="row">
+        <div className='related-products-wrap'>
+          {relatedProduct.map((p, i) => (
+            <Card key={i} product={p} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

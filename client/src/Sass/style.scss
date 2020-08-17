@@ -29,6 +29,19 @@
 .img-hover-zoom:hover {
   transform: scale(1.2);
 }
+.card-details {
+  font-family: sans-serif;
+  margin-left: 5em;
+  text-align: center;
+}
+.related-products-wrap {
+  display: inline-flex;
+  margin-left: 1em;
+  margin-bottom: 5em;
+}
+.products-card {
+  margin-left: 1.5em;
+}
 #formGroupExampleInput::placeholder {
   color: rgba(0, 0, 0, 0.466);
   opacity: 1;

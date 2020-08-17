@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ProductImage from "./ProductImage";
 
-const Card = ({ product }) => {
+const Card = ({ product,className }) => {
   return (
-    <div className="card-deck">
-      <div className="card card-background " style={{ width: "15rem" }}>
+    <div className="card-deck products-card">
+      <div className="card card-background" style={{ width: "15rem" }}>
         <div
           className="card-header text-white bg-dark"
           style={{ fontSize: "medium" }}
