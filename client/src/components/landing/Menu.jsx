@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { logout, isAuthenticated } from "../../api_request";
+import { itemTotal } from "../../helper/cartHelper";
 
 //remeber to add menu-text-color class on every new link tag.
 const isActive = (history, path) => {
@@ -13,6 +14,20 @@ const isActive = (history, path) => {
     };
   }
 };
+
+const displayCartItemCount = () => {
+  let count = itemTotal();
+  if (count > 0) {
+    return (
+      <sup>
+        <label className="badge badge-pill" id="lblCartCount">
+          {itemTotal()}
+        </label>
+      </sup>
+    );
+  }
+};
+
 //use this icon for shopping cart <i className="fas fa-shipping-fast"></i>
 const Menu = ({ history }) => (
   <div>
@@ -112,11 +127,12 @@ const Menu = ({ history }) => (
               Hello, {isAuthenticated().user.name}
             </span>
           )}
-          <Link className="ml-3" to='/'>
+          <Link className="ml-3" to="/cart" style={isActive(history, "/cart")}>
             <i
               className="fas fa-shopping-cart"
               style={{ color: "white", fontSize: "x-large" }}
-            ></i>
+            ></i>{" "}
+            {displayCartItemCount()}
           </Link>
         </div>
       </div>
