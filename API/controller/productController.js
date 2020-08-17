@@ -7,13 +7,15 @@ const { errorHandler } = require("../helper/errorHandler");
 
 //middleware function to search a product by id
 exports.findProductById = (req, res, next, id) => {
-  Product.findById(id).exec((err, product) => {
-    if (err || !product) {
-      return res.status(400).json({ error: "No Product found" });
-    }
-    req.product = product;
-    next();
-  });
+  Product.findById(id)
+    .populate("category")
+    .exec((err, product) => {
+      if (err || !product) {
+        return res.status(400).json({ error: "No Product found" });
+      }
+      req.product = product;
+      next();
+    });
 };
 
 //@desc     Get Single product details route
@@ -262,8 +264,27 @@ exports.getProductImage = (req, res, next) => {
   //   res.send(buffer);
   // }
   if (req.product.photo.data) {
-    res.set('Content-Type', req.product.photo.contentType);
+    res.set("Content-Type", req.product.photo.contentType);
     return res.send(req.product.photo.data);
-}
+  }
   next();
+};
+
+exports.listSearch = (req, res) => {
+  const query = {};
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: "i" };
+    if (req.query.category && req.query.category != "All") {
+      query.category = req.query.category;
+    }
+
+    Product.find(query, (err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.status(200).json(products);
+    }).select("-photo");
+  }
 };

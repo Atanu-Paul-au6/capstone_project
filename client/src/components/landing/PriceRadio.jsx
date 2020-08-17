@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 
 const PriceRadio = ({ prices, handelFilter }) => {
   const [value, setValue] = useState(0);

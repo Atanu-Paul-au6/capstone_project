@@ -13,6 +13,7 @@ const {
   updateSingleProduct,
   listBySearch,
   getProductImage,
+  listSearch,
 } = require("../controller/productController");
 const { findUserById } = require("../controller/userController");
 const {
@@ -23,6 +24,7 @@ const {
 
 //get routes
 router.get("/product", getAllProducts);
+router.get("/products/search", listSearch);
 router.get("/product/:productId", getSingleProduct);
 router.get("/product/related/:productId", getRelatedProduct);
 router.get("/products/categories", getAllProductCategory);
