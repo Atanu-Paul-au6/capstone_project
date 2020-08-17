@@ -33,6 +33,9 @@ const Cart = () => {
               setRun={setRun}
               run={run}
               id={itemsincard}
+              showAddToCartButton={false}
+              cartItemIncrement={true}
+              removeButton={true}
             />
           ))}
         </div>
