@@ -43,7 +43,7 @@ const Login = () => {
   }, []);
   const showLoading = () => loading && <Loader />;
   return (
-    <Layout className="container-fluid">
+    <Layout className="container">
       <SeachBar />
       {showLoading()}
       <label

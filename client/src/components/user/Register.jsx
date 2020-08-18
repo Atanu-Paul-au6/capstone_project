@@ -7,12 +7,13 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    role: "",
     error: "",
     success: false,
     loading: false,
   });
 
-  const { name, email, password, success, error, loading } = values;
+  const { name, email, password, role, success, error, loading } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -21,25 +22,51 @@ const Register = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
-    signup({ name, email, password }).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error,
-          success: false,
-          loading: false,
-        });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          email: "",
-          password: "",
-          error: "",
-          success: true,
-        });
-      }
-    });
+    // console.log(role);
+    if (role === "1") {
+      signup({ name, email, password, role }).then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+            success: false,
+            loading: false,
+          });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            role: "",
+            error: "",
+            success: true,
+          });
+        }
+      });
+    } else {
+      console.log("YEPPPPP");
+      signup({ name, email, password }).then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+            success: false,
+            loading: false,
+          });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            role: "",
+            error: "",
+            success: true,
+          });
+        }
+      });
+    }
   };
 
   const registerFrom = () => (
@@ -76,6 +103,13 @@ const Register = () => {
           onChange={handleChange("password")}
           value={password}
         ></input>
+      </div>
+      <div className="form-group bmd-form-group">
+        <select onChange={handleChange("role")} className="form-control">
+          <option value="">Select Role</option>
+          <option value="0">Buyer</option>
+          <option value="1">Seller</option>
+        </select>
       </div>
       <div className="form-group bmd-form-group">
         <button

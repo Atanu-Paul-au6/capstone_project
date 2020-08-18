@@ -70,8 +70,8 @@ const Card = ({
   };
 
   const removeItemFromCart = () => {
-    removeCartItem(product._id);
     setRun(!run);
+    removeCartItem(product._id);
   };
   const removeItemButton = (removeButton) => {
     return (
@@ -112,7 +112,6 @@ const Card = ({
             <br />
             <div
               className="card-footer"
-              style={{ position: "absolute", bottom: "0" }}
             >
               <p>{product.description.substring(0, 100)}</p>
               {AddToCartButton(showAddToCartButton)}

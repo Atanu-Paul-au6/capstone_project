@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getCart } from "../../helper/cartHelper";
-import Card from "../product/ProductCard";
 import { Link } from "react-router-dom";
+import Card from "../product/ProductCard";
+import Checkout from "./Checkout";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
-  const [run, setRun] = useState(false);
+  const [run, setRun] = useState(true);
 
   useEffect(() => {
     setItems(getCart());
@@ -60,12 +61,14 @@ const Cart = () => {
 
   return (
     <div className="container">
-      <div className="row mt-5">
+      <div className="row mt-5 boxes">
         <div className="col-5">
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
         <div className="col-1"></div>
-        <div className="col-6">some content</div>
+        <div className="col-6">
+          <Checkout products={items} setRun={setRun} run={run} />
+        </div>
       </div>
     </div>
   );

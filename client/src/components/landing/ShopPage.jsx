@@ -110,7 +110,7 @@ const Shop = () => {
   const showLoading = () => loading && <Loader />;
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col-3">
           <button
