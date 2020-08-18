@@ -5,7 +5,6 @@ import {
   addItem,
   increaseCartItem,
   removeCartItem,
-  itemTotal,
 } from "../../helper/cartHelper";
 
 const Card = ({
@@ -28,9 +27,6 @@ const Card = ({
   const RedirectToCart = (redirect) => {
     if (redirect) {
       return <Redirect to="/cart" />;
-    }
-    if (itemTotal() === 0) {
-      return <Redirect to="/shop" />;
     }
   };
 
