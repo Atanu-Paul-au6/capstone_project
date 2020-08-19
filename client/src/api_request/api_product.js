@@ -58,3 +58,14 @@ export const getProductDetails = async (productId) => {
     return console.log(err);
   }
 };
+
+export const getRelatedProduct = async (productId) => {
+  try {
+    const response = await fetch(`${API}/product/related/${productId}`, {
+      method: "GET",
+    });
+    return response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};
