@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
 import {
   getProductDetails,
   getRelatedProduct,
 } from "../../api_request/api_product";
+
+import { addItem } from "../../helper/cartHelper";
 import ProductImage from "./ProductImage";
 import Card from "./ProductCard";
 
@@ -12,6 +14,19 @@ const ProductDetails = (props) => {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
+  const addToCart = () => {
+    addItem(product, () => {
+      setRedirect(true);
+    });
+  };
+
+  const RedirectToCart = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/cart" />;
+    }
+  };
 
   const loadProductDetails = (productId) => {
     getProductDetails(productId).then((data) => {
@@ -95,9 +110,13 @@ const ProductDetails = (props) => {
               Arrived on :{moment(product.createdAt).fromNow()}
             </p>
             <br />
-            <Link to="/" className="btn btn-raised btn-lg btn-success">
+            {RedirectToCart(redirect)}
+            <button
+              onClick={addToCart}
+              className="btn btn-raised btn-outline-success"
+            >
               Add to Cart
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -113,7 +132,7 @@ const ProductDetails = (props) => {
       </label>
       <hr />
       <div className="row">
-        <div className='related-products-wrap'>
+        <div className="related-products-wrap">
           {relatedProduct.map((p, i) => (
             <Card key={i} product={p} />
           ))}

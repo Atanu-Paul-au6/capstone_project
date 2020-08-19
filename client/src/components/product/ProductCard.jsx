@@ -18,6 +18,7 @@ const Card = ({
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
+  
   const addToCart = () => {
     addItem(product, () => {
       setRedirect(true);
