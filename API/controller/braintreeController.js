@@ -18,3 +18,24 @@ exports.generateToken = (req, res) => {
     }
   });
 };
+
+exports.processPayment = (req, res) => {
+  let nonceFromClient = req.body.paymentMethodNonce;
+  let amountFromClient = req.body.amount;
+  let paymentTrnsaction = gateway.transaction.sale(
+    {
+      amount: amountFromClient,
+      paymentMethodNonce: nonceFromClient,
+      options: {
+        submitForSettlement: true,
+      },
+    },
+    (error, result) => {
+      if (error) {
+        res.status(500).json(error);
+      } else {
+        res.status(200).json(result);
+      }
+    }
+  );
+};

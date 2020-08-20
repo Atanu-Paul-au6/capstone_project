@@ -8,13 +8,23 @@ const {
 
 const { findUserById } = require("../controller/userController");
 
-const { generateToken } = require("../controller/braintreeController");
+const {
+  generateToken,
+  processPayment,
+} = require("../controller/braintreeController");
 
 router.get(
   "/payment/getToken/:userId",
   isLoggedIn,
   isAuthenticated,
   generateToken
+);
+
+router.post(
+  "/payment/processing/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  processPayment
 );
 
 router.param("userId", findUserById);

@@ -14,3 +14,21 @@ export const getBrainTreeToken = async (userId, token) => {
     return console.log(err);
   }
 };
+
+//payload = paymentMethod(card,paypal,etc) and total amount
+export const processPayment = async (userId, token, payload) => {
+  try {
+    const response = await fetch(`${API}/payment/processing/${userId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    return response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};

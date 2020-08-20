@@ -148,23 +148,24 @@ if no prameter are sent form the url then we send all the products
 //@route    GET /api/product
 //@access   public
 exports.getAllProducts = (req, res) => {
-  let orderBy = req.query.orderBy ? req.query.orderBy : "asc";
-  let sortBy = req.query.sorrtBy ? req.query.sortBy : "_id";
-  let limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   Product.find()
     .select("-photo")
     .populate("category")
-    .sort([[sortBy, orderBy]])
+    .sort([[sortBy, order]])
     .limit(limit)
-    .exec((err, product) => {
+    .exec((err, products) => {
       if (err) {
-        return res.status(400).json({ message: "Product Not Found" });
+        return res.status(400).json({
+          error: "Products not found",
+        });
       }
-      res.json(product);
+      res.json(products);
     });
 };
-
 /**
  *  this method will work by selecting the category id of the current product in the request body
  * and fetch all the other products having the same category id

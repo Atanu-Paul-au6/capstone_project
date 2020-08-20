@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import DropIn from "braintree-web-drop-in-react";
+
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../../api_request";
-import { getBrainTreeToken } from "../../api_request/api_paymentgateway";
+import {
+  getBrainTreeToken,
+  processPayment,
+} from "../../api_request/api_paymentgateway";
+import { emptyCartOnPayment } from "../../helper/cartHelper";
+import Loader from "../Loader";
+
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
     success: false,
     error: "",
+    loading: false,
     clientToken: null,
     instance: {},
     address: "",
@@ -20,7 +28,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
       if (data.err) {
         setData({ ...data, error: data.error });
       } else {
-        setData({ ...data, clientToken: data.clientToken });
+        setData({ clientToken: data.clientToken });
       }
     });
   };
@@ -40,6 +48,44 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     let totalAmount = amount + taxamount;
     return totalAmount;
   };
+
+  const makePayment = () => {
+    //send requestPaymentmethod() to the backend server
+    setData({ loading: true });
+    let nonce;
+    let getNonce = data.instance
+      .requestPaymentMethod()
+      .then((data) => {
+        // console.log(data);
+        nonce = data.nonce;
+        // sending the nonce data (card type,card number,etc) as 'paymentMethodNonce' with the
+        //amount to be charged to the backend server
+        // console.log(nonce, totalAmount(products));
+        const payload = {
+          amount: totalAmount(products),
+          paymentMethodNonce: nonce,
+        };
+
+        processPayment(userId, token, payload)
+          .then((response) => {
+            // console.log(response)
+            emptyCartOnPayment(() => {
+              setRun(!run);
+              console.log("Payment Successful");
+              setData({ loading: false, success: response.success });
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            setData({ loading: false });
+          });
+      })
+      .catch((error) => {
+        // console.log(error);
+        setData({ ...data, error: error.message });
+      });
+  };
+
   const sgst = "9%";
   const cgst = "9%";
   const totalGst = "18%";
@@ -85,31 +131,18 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     </div>
   );
 
-  const makePayment = () => {
-    //send requestPaymentmethod() to the backend server
-
-    let nonce;
-    let getNonce = data.instance
-      .requestPaymentMethod()
-      .then((data) => {
-        console.log(data);
-        nonce = data.nonce;
-        // sending the nonce data (card type,card number,etc) as 'paymentMethodNonce' with the
-        //amount to be charged to the backend server
-        console.log(nonce, totalAmount(products));
-      })
-      .catch((error) => {
-        console.log(error);
-        setData({ ...data, error: error.message });
-      });
-  };
   const ShowDropInUi = () => (
     <div onBlur={() => setData({ ...data, error: "" })}>
+      {showLoading(data.loading)}
       {data.clientToken !== null && products.length > 0 ? (
         <div>
           <DropIn
             options={{
               authorization: data.clientToken,
+              paypal: {
+                flow: "vault",
+              },
+                
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
@@ -128,6 +161,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     </div>
   );
 
+  const showLoading = (loading) => loading && <Loader />;
   const showDropInUiError = (error) => (
     <div
       className="alert alert-danger"
@@ -137,7 +171,21 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     </div>
   );
 
-  return <div>{getTotal() ? showCheckout() : <div></div>}</div>;
+  const showDropInUiSuccess = (success) => (
+    <div
+      className="alert alert-success"
+      style={{ display: success ? "" : "none" }}
+    >
+      Payment Recived, <Link to="/shop"> Continue Shopping</Link>
+    </div>
+  );
+
+  return (
+    <div>
+      {getTotal() ? showCheckout() : <div></div>}
+      {showDropInUiSuccess(data.success)}
+    </div>
+  );
 };
 
 export default Checkout;
