@@ -13,6 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoute");
 const paymentRoute = require("./routes/braintreegateway");
+const orderRoutes = require("./routes/orderRoutes");
 
 //connecting the mongodb atlas cluster to the api
 const connectDB = require("./db_conection");
@@ -30,7 +31,14 @@ app.use(expressValidator());
 app.use(morgan("dev"));
 
 //setting up the route
-app.use(authRoutes, userRoutes, categoryRoutes, productRoutes, paymentRoute);
+app.use(
+  authRoutes,
+  userRoutes,
+  categoryRoutes,
+  productRoutes,
+  paymentRoute,
+  orderRoutes
+);
 // app.use("/api", userRoutes);
 // app.use("/api", categoryRoutes);
 // app.use("/api", productRoutes);

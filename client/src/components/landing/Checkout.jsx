@@ -8,6 +8,8 @@ import {
   processPayment,
 } from "../../api_request/api_paymentgateway";
 import { emptyCartOnPayment } from "../../helper/cartHelper";
+import { newOrder } from "../../api_request/api_orders";
+
 import Loader from "../Loader";
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
@@ -37,6 +39,11 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     getToken(userId, token);
   }, []);
 
+  const handleChange = (event) => {
+    setData({ ...data, address: event.target.value });
+    //console.log(data.address);
+  };
+
   const getTotal = () => {
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
@@ -48,6 +55,8 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     let totalAmount = amount + taxamount;
     return totalAmount;
   };
+
+  const deliveryAddress = data.address;
 
   const makePayment = () => {
     //send requestPaymentmethod() to the backend server
@@ -68,11 +77,18 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
         processPayment(userId, token, payload)
           .then((response) => {
-            // console.log(response)
+            // console.log(response);
+            const OrderPayload = {
+              products: products,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount,
+              address: deliveryAddress,
+            };
+            newOrder(userId, token, OrderPayload);
             emptyCartOnPayment(() => {
               setRun(!run);
-              console.log("Payment Successful");
-              setData({ loading: false, success: response.success });
+              //console.log("Payment Successful");
+              setData({ loading: false, success: true });
             });
           })
           .catch((error) => {
@@ -136,13 +152,22 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
       {showLoading(data.loading)}
       {data.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className="form-group mb-3">
+            <textarea
+              rows="5"
+              onChange={handleChange}
+              className="form-control"
+              value={data.address}
+              placeholder="Enter Delivery Address"
+              required
+            />
+          </div>
           <DropIn
             options={{
               authorization: data.clientToken,
               paypal: {
                 flow: "vault",
               },
-                
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
@@ -176,7 +201,8 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
       className="alert alert-success"
       style={{ display: success ? "" : "none" }}
     >
-      Payment Recived, <Link to="/shop"> Continue Shopping</Link>
+      Payment Recived,Order Is Placed,{" "}
+      <Link to="/shop"> Continue Shopping</Link>
     </div>
   );
 
