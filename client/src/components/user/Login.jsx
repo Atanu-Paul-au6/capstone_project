@@ -99,10 +99,10 @@ const Login = () => {
     }
   };
   return (
-    <Layout className="container formBox">
+    <div className="container formBox">
       {showLoading()}
       {loginFrom()} {redirectUser()}
-    </Layout>
+    </div>
   );
 };
 

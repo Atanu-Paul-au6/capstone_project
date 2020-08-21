@@ -289,3 +289,22 @@ exports.listSearch = (req, res) => {
     }).select("-photo");
   }
 };
+
+exports.updateStock = (req, res, next) => {
+  let prodcutOptions = req.body.order.products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+  Product.bulkWrite(prodcutOptions, {}, (error, product) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Stock could not be updated",
+      });
+    }
+    next();
+  });
+};

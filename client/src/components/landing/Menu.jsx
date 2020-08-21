@@ -1,4 +1,4 @@
-import React, { Fragment,useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { logout, isAuthenticated } from "../../api_request";
 import { itemTotal } from "../../helper/cartHelper";
@@ -31,7 +31,9 @@ const Menu = ({ history }) => {
   };
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav
+        className="navbar navbar-expand-lg navbar-dark bg-dark navbar-sticky"
+      >
         <Link className="navbar-brand" to="/">
           <img
             src="logo_transparent.png"

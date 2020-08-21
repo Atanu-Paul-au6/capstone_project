@@ -15,3 +15,31 @@ export const newOrder = async (userId, token, OrderPayload) => {
     return console.log(err);
   }
 };
+
+export const getOrders = async (userId, token) => {
+  try {
+    const response = await fetch(`${API}/order/show/${userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};
+
+export const getOrderStatusValues = async (userId, token) => {
+  try {
+    const response = await fetch(`${API}/order/status/values/${userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  } catch (err) {
+    return console.log(err);
+  }
+};

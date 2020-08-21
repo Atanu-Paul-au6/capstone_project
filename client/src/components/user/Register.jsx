@@ -142,10 +142,10 @@ const Register = () => {
   const showLoading = () => loading && <div className="loader">Loading...</div>;
 
   return (
-    <Layout className="container formBox">
+    <div className="container formBox">
       {showLoading()}
       {registerFrom()}
-    </Layout>
+    </div>
   );
 };
 

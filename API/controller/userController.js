@@ -42,3 +42,31 @@ exports.updateUserData = (req, res) => {
     }
   );
 };
+
+exports.addOrderToHistory = (req, res, next) => {
+  let purchaseHistory = [];
+  req.body.order.products.forEach((product) => {
+    purchaseHistory.push({
+      _id: product._id,
+      name: product.name,
+      description: product.description,
+      quantity: product.count,
+      transaction_id: req.body.order.transaction_id,
+      amount: req.body.order.amount,
+    });
+  });
+
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { history: purchaseHistory } },
+    { new: true },
+    (err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: "User purchase history not updated",
+        });
+      }
+      next();
+    }
+  );
+};
