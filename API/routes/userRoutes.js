@@ -5,6 +5,7 @@ const {
   findUserById,
   getUserData,
   updateUserData,
+  getPurchaseHistory
 } = require("../controller/userController");
 
 const {
@@ -13,6 +14,13 @@ const {
 } = require("../middleware/auth_middleware");
 
 router.get("/profile/:userId", isLoggedIn, isAuthenticated, getUserData);
+
+router.get(
+  "/profile/purchase/history/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  getPurchaseHistory
+);
 
 router.put("/profile/:userId", isLoggedIn, isAuthenticated, updateUserData);
 

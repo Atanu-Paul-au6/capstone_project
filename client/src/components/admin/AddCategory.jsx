@@ -36,7 +36,7 @@ const AddCategory = () => {
   };
 
   const categoryFrom = () => (
-    <div className="card mt-5">
+    <div className="card mt-5" style={{ border: "1px solid black" }}>
       <form onSubmit={clickSubmit}>
         <div className="form-group">
           <h5 className="card-header">Create Category</h5>
@@ -55,7 +55,7 @@ const AddCategory = () => {
           <div className="d-flex flex-row justify-content-center">
             <button
               type="submit"
-              className="btn btn-raised btn-lg btn-info"
+              className="Button"
             >
               Create
             </button>

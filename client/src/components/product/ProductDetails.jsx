@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
 import {
   getProductDetails,
   getRelatedProduct,
 } from "../../api_request/api_product";
+
+import { addItem } from "../../helper/cartHelper";
 import ProductImage from "./ProductImage";
 import Card from "./ProductCard";
+import '../../Sass/style.scss'
 
 const ProductDetails = (props) => {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
+  const addToCart = () => {
+    addItem(product, () => {
+      setRedirect(true);
+    });
+  };
+
+  const RedirectToCart = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/cart" />;
+    }
+  };
 
   const loadProductDetails = (productId) => {
     getProductDetails(productId).then((data) => {
@@ -57,11 +73,11 @@ const ProductDetails = (props) => {
   return (
     <div className="container mt-5">
       <div className="row">
-        <div className="d-flex detailsPageStyle">
-          <div style={{ width: "100%", marginTop: "2em" }}>
+        <div className="detailsPageStyle row">
+          <div className='col-6' style={{ width: "100%", marginTop: "2em" }}>
             <ProductImage item={product} url="product" id="productimage" />
           </div>
-          <div className="card-details">
+          <div className=" col-6 card-details">
             <p
               className="display-3"
               style={{ fontWeight: "bolder", marginTop: "2em" }}
@@ -95,9 +111,13 @@ const ProductDetails = (props) => {
               Arrived on :{moment(product.createdAt).fromNow()}
             </p>
             <br />
-            <Link to="/" className="btn btn-raised btn-lg btn-success">
+            {RedirectToCart(redirect)}
+            <button
+              onClick={addToCart}
+              className="Button"
+            >
               Add to Cart
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -113,7 +133,7 @@ const ProductDetails = (props) => {
       </label>
       <hr />
       <div className="row">
-        <div className='related-products-wrap'>
+        <div className="related-products-wrap">
           {relatedProduct.map((p, i) => (
             <Card key={i} product={p} />
           ))}

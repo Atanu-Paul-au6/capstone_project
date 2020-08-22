@@ -18,6 +18,7 @@ const Card = ({
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
+  
   const addToCart = () => {
     addItem(product, () => {
       setRedirect(true);
@@ -35,7 +36,7 @@ const Card = ({
       show && (
         <button
           onClick={addToCart}
-          className="btn btn-raised btn-outline-success"
+          className="Button1"
         >
           <i className="fas fa-cart-plus" style={{ fontSize: "x-large" }}></i>
         </button>
@@ -117,7 +118,7 @@ const Card = ({
               {AddToCartButton(showAddToCartButton)}
               <Link
                 to={`/product/${product._id}`}
-                className="btn btn-raised btn-outline-dark ml-5"
+                className="Button1 ml-5"
               >
                 <i className="fas fa-eye" style={{ fontSize: "x-large" }}></i>
               </Link>

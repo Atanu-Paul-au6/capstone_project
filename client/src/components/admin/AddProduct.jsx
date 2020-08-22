@@ -84,7 +84,7 @@ const AddProduct = () => {
   };
   //name
   const productFrom = () => (
-    <div className="card">
+    <div className="card" style={{ border: "1px solid black" }}>
       <form onSubmit={clickSubmit}>
         <div className="form-group">
           <h5 className="card-header">Add Product</h5>
@@ -149,7 +149,7 @@ const AddProduct = () => {
           </div>
           {showLoading()}
           <div className="d-flex flex-row justify-content-center">
-            <button type="submit" className="btn btn-raised btn-dark">
+            <button type="submit" className="Button">
               Add Product
             </button>
           </div>
