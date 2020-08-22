@@ -2,19 +2,27 @@ import React, { useState, useEffect, Fragment } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../../api_request";
-import { getOrders, getOrderStatusValues } from "../../api_request/api_orders";
-// import Loader from "../Loader";
+import {
+  getOrders,
+  getOrderStatusValues,
+  changeOrderStatus,
+} from "../../api_request/api_orders";
+import Loader from "../Loader";
 
 const ShowAllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [statusValue, setStatusValue] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { user, token } = isAuthenticated();
 
   const fetchOrders = () => {
+    setLoading(true);
     getOrders(user._id, token).then((data) => {
       if (data.error) {
+        setLoading(false);
         console.log(data.error);
       } else {
+        setLoading(false);
         setOrders(data);
       }
     });
@@ -35,6 +43,7 @@ const ShowAllOrders = () => {
     fetchOrderStatus();
   }, []);
 
+  const showLoading = () => loading && <Loader />;
   const OrderCount = () => {
     if (orders.length > 0) {
       return (
@@ -66,15 +75,28 @@ const ShowAllOrders = () => {
   };
 
   const handleStatusChange = (e, orderId) => {
-    console.log("ORDER STAUS EMUN");
+    //console.log("ORDER STAUS EMUN");
+    changeOrderStatus(user._id, token, orderId, e.target.value).then((data) => {
+      if (data.error) {
+        console.lof("Order Status update failed");
+      } else {
+        fetchOrders();
+      }
+    });
   };
+
+  const goBack = () => (
+    <Link to="/admin/dashboard" className="btn btn-dark">
+      <i className="fas fa-arrow-left" style={{ fontSize: "x-large" }}></i>
+    </Link>
+  );
   const showStatus = (o) => (
     <div className="custom-select">
       <select
         className="form-control"
         onChange={(e) => handleStatusChange(e, o._id)}
       >
-        <options>Update Stauts</options>
+        <option value="">Update Stauts</option>
         {statusValue.map((status, sid) => (
           <option key={sid} value={status}>
             {status}
@@ -94,10 +116,10 @@ const ShowAllOrders = () => {
             textTransform: "uppercase",
           }}
         >
-          Your orders
+          {goBack()} Your orders
         </label>
         <hr />
-        {OrderCount()}
+        {showLoading() ? showLoading() : OrderCount()}
 
         {orders.map((o, oIn) => {
           return (

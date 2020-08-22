@@ -46,8 +46,9 @@ exports.getStausValues = (req, res) => {
   res.json(Order.schema.path("status").enumValues);
 };
 
-exports.updateOrderStatus = () => {
-  Order.update(
+exports.changeOrderStatus = (req, res) => {
+  //console.log("this is hit");
+  Order.updateOne(
     { _id: req.body.orderId },
     { $set: { status: req.body.status } },
     (err, order1) => {

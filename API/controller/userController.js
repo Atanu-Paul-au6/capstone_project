@@ -60,7 +60,7 @@ exports.addOrderToHistory = (req, res, next) => {
     { _id: req.profile._id },
     { $push: { history: purchaseHistory } },
     { new: true },
-    (err, data) => {
+    (err) => {
       if (err) {
         return res.status(400).json({
           error: "User purchase history not updated",

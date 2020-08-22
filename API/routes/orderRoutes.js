@@ -11,13 +11,15 @@ const {
   findUserById,
   addOrderToHistory,
 } = require("../controller/userController");
+
 const {
   createOrder,
   getAllOrders,
   getStausValues,
   findOrderById,
-  updateOrderStatus,
+  changeOrderStatus,
 } = require("../controller/orederController");
+
 const { updateStock } = require("../controller/productController");
 
 router.post(
@@ -27,6 +29,13 @@ router.post(
   addOrderToHistory,
   updateStock,
   createOrder
+);
+
+router.put(
+  "/order/:orderId/status/:userId",
+  isLoggedIn,
+  isAuthenticated,
+  changeOrderStatus
 );
 
 router.get(
@@ -43,14 +52,6 @@ router.get(
   isAuthenticated,
   isAdmin,
   getStausValues
-);
-
-router.put(
-  "/order/:orderId/status/:userId",
-  isLoggedIn,
-  isAuthenticated,
-  addOrderToHistory,
-  updateOrderStatus
 );
 
 router.param("userId", findUserById);

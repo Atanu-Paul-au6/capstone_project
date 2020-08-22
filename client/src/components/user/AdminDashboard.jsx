@@ -24,7 +24,7 @@ const AdminDashboard = () => {
             </li>
             <li className="list-group-item">
               <Link className="nav-link" to="/order/list">
-                Orders
+                Orders <i className="fas fa-folder-open"></i>
               </Link>
             </li>
           </ul>
