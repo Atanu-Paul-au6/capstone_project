@@ -1,5 +1,6 @@
 const User = require("../model/user");
-
+const { Order } = require("../model/order");
+const { errorHandler } = require("../helper/errorHandler");
 //finding one user by id middleware function
 exports.findUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -25,8 +26,9 @@ exports.getUserData = (req, res) => {
 //@desc     Update user profile data route
 //@route    PUT /api/profile/:userId
 //@access   protected
-exports.updateUserData = (req, res) => {
-  User.findOneAndUpdate(
+exports.updateUserData = async (req, res) => {
+  //console.log(req.body)
+  await User.findOneAndUpdate(
     { _id: req.profile._id },
     { $set: req.body },
     { new: true },
@@ -36,13 +38,14 @@ exports.updateUserData = (req, res) => {
           error: "Unauthorized User",
         });
       }
-      user.hashed_password = undefined;
-      user.salt = undefined;
+      // user.hashed_password = undefined;
+      // user.salt = undefined;
       res.status(200).json(user);
     }
   );
 };
 
+//Note to self: push the order createdAt date in the purchase history array
 exports.addOrderToHistory = (req, res, next) => {
   let purchaseHistory = [];
   req.body.order.products.forEach((product) => {
@@ -69,4 +72,18 @@ exports.addOrderToHistory = (req, res, next) => {
       next();
     }
   );
+};
+
+exports.getPurchaseHistory = (req, res) => {
+  Order.find({ user: req.profile._id })
+    .populate("user", "_id name")
+    .sort("-createdAt")
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.status(200).json(orders);
+    });
 };

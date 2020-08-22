@@ -9,6 +9,7 @@ import {
 import { addItem } from "../../helper/cartHelper";
 import ProductImage from "./ProductImage";
 import Card from "./ProductCard";
+import '../../Sass/style.scss'
 
 const ProductDetails = (props) => {
   const [product, setProduct] = useState({});
@@ -72,11 +73,11 @@ const ProductDetails = (props) => {
   return (
     <div className="container mt-5">
       <div className="row">
-        <div className="d-flex detailsPageStyle">
-          <div style={{ width: "100%", marginTop: "2em" }}>
+        <div className="detailsPageStyle row">
+          <div className='col-6' style={{ width: "100%", marginTop: "2em" }}>
             <ProductImage item={product} url="product" id="productimage" />
           </div>
-          <div className="card-details">
+          <div className=" col-6 card-details">
             <p
               className="display-3"
               style={{ fontWeight: "bolder", marginTop: "2em" }}
@@ -113,7 +114,7 @@ const ProductDetails = (props) => {
             {RedirectToCart(redirect)}
             <button
               onClick={addToCart}
-              className="btn btn-raised btn-outline-success"
+              className="Button"
             >
               Add to Cart
             </button>

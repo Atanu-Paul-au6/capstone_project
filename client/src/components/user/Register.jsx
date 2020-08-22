@@ -71,7 +71,7 @@ const Register = () => {
 
   const registerFrom = () => (
     <form>
-      <h3>Register</h3>
+      <h3 style={{ textTransform: "uppercase" }}>Register</h3>
       {showError()}
       {showSuccess()}
       <div className="form-group bmd-form-group">
@@ -114,7 +114,7 @@ const Register = () => {
       <div className="form-group bmd-form-group">
         <button
           type="button"
-          className="btn btn-raised btn-info btn-lg form-control"
+          className="Button form-control"
           onClick={clickSubmit}
         >
           Register

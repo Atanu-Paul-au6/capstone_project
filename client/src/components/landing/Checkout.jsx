@@ -173,7 +173,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
           />
           <button
             onClick={makePayment}
-            className="btn btn-raised btn-outline-success btn-lg btn-block"
+            className="Button btn-block"
             style={{
               fontWeight: "bolder",
               textTransform: "uppercase",

@@ -75,11 +75,14 @@ const ShowAllOrders = () => {
   };
 
   const handleStatusChange = (e, orderId) => {
+    setLoading(true);
     //console.log("ORDER STAUS EMUN");
     changeOrderStatus(user._id, token, orderId, e.target.value).then((data) => {
       if (data.error) {
-        console.lof("Order Status update failed");
+        setLoading(false);
+        console.log("Order Status update failed");
       } else {
+        setLoading(false);
         fetchOrders();
       }
     });

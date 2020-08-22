@@ -37,7 +37,7 @@ const Login = () => {
 
   const loginFrom = () => (
     <form>
-      <h3>Login</h3>
+      <h3 style={{ textTransform: "uppercase" }}>Login</h3>
       {showError()}
       <div className="form-group bmd-form-group">
         <input
@@ -68,7 +68,7 @@ const Login = () => {
       <div className="form-group bmd-form-group">
         <button
           type="button"
-          className="btn btn-raised btn-success btn-lg form-control"
+          className="Button form-control"
           onClick={clickSubmit}
         >
           Login
