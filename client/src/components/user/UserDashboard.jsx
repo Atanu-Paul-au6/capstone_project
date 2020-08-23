@@ -94,7 +94,7 @@ const Dashboard = () => {
                           <h6>Item name: {product.name}</h6>
                           <h6>Item price: ₹ {product.price}</h6>
                           <h6>
-                            Purchased On: {moment(product.createdAt).format('LLLL')}
+                            Item Arrived On: {moment(product.createdAt).format('LLLL')}
                           </h6>
                           <div style={{borderBottom:'1px solid black'}} className='mt-5 mb-5'></div>
                         </div>

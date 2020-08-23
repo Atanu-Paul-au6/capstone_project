@@ -39,6 +39,11 @@ const AdminDashboard = () => {
               </Link>
             </li>
             <li className="list-group-item">
+              <Link className="nav-link" to="/edit/product">
+                Product <i className="fas fa-edit"></i>
+              </Link>
+            </li>
+            <li className="list-group-item">
               <Link className="nav-link" to="/order/list">
                 Orders <i className="fas fa-folder-open"></i>
               </Link>

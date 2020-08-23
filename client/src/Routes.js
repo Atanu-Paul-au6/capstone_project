@@ -11,6 +11,8 @@ import Profile from "./components/user/Profile";
 import AdminDashboard from "./components/user/AdminDashboard";
 import AddCategory from "./components/admin/AddCategory";
 import AddProduct from "./components/admin/AddProduct";
+import EditProducts from "./components/admin/EditProducts";
+import UpdateProducts from "./components/admin/UpdateProducts";
 import ShowAllOrders from "./components/admin/ShowAllOrders";
 import Shop from "./components/landing/ShopPage";
 import ProductDetails from "./components/product/ProductDetails";
@@ -26,10 +28,20 @@ const Routes = () => {
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
-        <PrivateRoute path="/profile/update/:userId" exact component={Profile} />
+        <PrivateRoute
+          path="/profile/update/:userId"
+          exact
+          component={Profile}
+        />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
         <AdminRoute path="/create/category" exact component={AddCategory} />
         <AdminRoute path="/create/product" exact component={AddProduct} />
+        <AdminRoute path="/edit/product" exact component={EditProducts} />
+        <AdminRoute
+          path="/admin/product/update/:productId"
+          exact
+          component={UpdateProducts}
+        />
         <AdminRoute path="/order/list" exact component={ShowAllOrders} />
         <Route path="/product/:productId" exact component={ProductDetails} />
         <Route path="/cart" exact component={Cart} />
